@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+
+	html,body{margin: 0}
+
+	body{width: 100%;height: 100vh;}
+	.top_div
+	{
+		width: 100%;height: 30%;
+		background-color:#ccc;
+	}
+/******************************  中间菜单  ************************************************/
+	.middle_div
+	{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		align-items: center;
+		width: 100%;height: 60%;
+		background-color: #333;
+	}
+	.middle_div_menu
+	{
+		display:flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 30%;height: 30%;
+		background-color: #fff;
+	}
+	.middle_div_menu_img
+	{
+		width: 70%;height: 70%;
+		border-radius: 50%;
+		overflow: hidden;
+	}
+/*****************************  底部菜单  *****************************************/
+	.bottom_div
+	{
+		display:flex;
+		justify-content: space-around;
+		align-items: center;
+		width: 100%;height: 10%;
+		background-color: #999;
+	}
+	.bottom_div_menu
+	{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 20%;height: 100%;
+		background-color: #fff;
+	}
+	.bottom_div_menu_img{width: 70%;height: 70%;background-color: #000;}
+
+/* 共有属性--图片大小 */
+	.bottom_div_menu_img img,.middle_div_menu_img img{width: 100%;height: 100%;}
+</style>
+</head>
+<body>
+	<div class="top_div"></div>
+	<div class="middle_div">
+<!-- 		<div class="middle_div_menu">
+			<div class="middle_div_menu_img"><img src="./美图/a1.jpg" alt=""></div>
+			<div class="middle_div_menu_txt">小区门禁</div>
+		</div> -->
+	</div>
+
+	<div class="bottom_div">
+<!-- 		<div class="bottom_div_menu">
+			<div class="bottom_div_menu_img"><img src="./美图/a1.jpg" alt=""></div>
+			<div class="bottom_div_menu_txt">你好</div>
+		</div> -->
+	</div>
+</body>
+
+<script>
+	(function()
+	{
+		var middle_div = document.querySelector('.middle_div');
+		var middle_div_data = ["不","喜","欢","没","关","系","我","教","你"];
+
+		var url = decodeURI(location.search);
+		//alert(url);
+
+		var str = url.substr(url.indexOf("=")+1);
+
+		var data = JSON.parse(str);
+		alert(typeof data);
+
+		data.forEach(function(value,index)
+		{
+			var middle_div_menu = document.createElement('div');
+			middle_div_menu.className = "middle_div_menu";
+
+			var middle_div_menu_img = document.createElement('div');
+			middle_div_menu_img.className = "middle_div_menu_img";
+
+			var img = document.createElement('img');
+			// 设置图片路径
+			img.setAttribute("src",value["imgpath"]);
+
+			var middle_div_menu_txt = document.createElement('div');
+			middle_div_menu_txt.className = "middle_div_menu_txt";
+			// 设置文本内容
+			middle_div_menu_txt.innerText = value["tname"];
+
+			middle_div_menu_img.append(img);
+
+			middle_div_menu.append(middle_div_menu_img);
+			middle_div_menu.append(middle_div_menu_txt);
+
+			middle_div.append(middle_div_menu);
+		});
+
+
+// 中间菜单栏
+
+
+
+
+		var bottom_div = document.querySelector('.bottom_div');
+		var bottom_div_data = ["你好","世界","嗨","嗯"];
+// 底部菜单栏
+		for(var i = 0; i < bottom_div_data.length; i++)
+		{
+			var bottom_div_menu = document.createElement('div');
+			bottom_div_menu.className = "bottom_div_menu";
+
+			// bottom_div_menu.addEventListener('click',function()
+			// 	{
+
+			// 	},false);
+
+			var bottom_div_menu_img = document.createElement('div');
+			bottom_div_menu_img.className = "bottom_div_menu_img";
+
+			var img = document.createElement('img');
+			// 设置图片路径
+			img.setAttribute("src","");
+
+			var bottom_div_menu_txt = document.createElement('div');
+			bottom_div_menu_txt.className = "bottom_div_menu_txt";
+			// 设置文本内容
+			bottom_div_menu_txt.innerText = bottom_div_data[i];
+
+			bottom_div_menu_img.append(img);
+
+			bottom_div_menu.append(bottom_div_menu_img);
+			bottom_div_menu.append(bottom_div_menu_txt);
+
+			bottom_div.append(bottom_div_menu);
+		}
+	})();
+
+
+	(function()
+	{
+		var bottom_div_menu = document.querySelectorAll('.bottom_div_menu');
+
+		
+
+		// console.log(typeof bottom_div_menu);
+		for(var i = 0; i < bottom_div_menu.length; i++)
+		{
+			// js 面向对象的语法
+			bottom_div_menu[i].e = i;
+
+			bottom_div_menu[i].onclick = function()
+			{
+				var middle_div = document.querySelector('.middle_div');
+				middle_div.innerHTML = "";
+			}
+		}
+	})();
+
+
+
+
+</script>
+</html>

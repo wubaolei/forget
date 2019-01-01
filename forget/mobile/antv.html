@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<script src="https://gw.alipayobjects.com/os/antv/assets/f2/3.3.0/f2.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/assets/lib/lodash-4.17.4.min.js"></script>
+
+<!-- 在 PC 上模拟 touch 事件 -->
+<script src="https://gw.alipayobjects.com/os/rmsportal/NjNldKHIVQRozfbAOJUW.js"></script>
+
+
+<script src="https://gw.alipayobjects.com/os/antv/assets/f2/3.3.0/f2.min.js"></script>
+
+
+
+
+
+<style>
+
+	body,html{margin: 0;}
+
+	#wrap{width: 100%;height: 100vh;}
+
+	.swiper_div
+	{
+		width: 100%;height: 80%;
+		border: 1px solid black;
+	}
+	.content_div
+	{
+		
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;height: 100%;
+	}
+	.content_div_txt
+	{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 10%;height: 100%;
+		font-size: 16px;
+		border: 1px solid red;
+	}
+	.content_div_antv
+	{
+		border: 1px solid blue;
+		width: 80%;height: 100%;
+	}
+	.content_div_antv canvas
+	{
+		width: 100%;height: 100%;
+	}
+
+  #date {
+    visibility: hidden;
+    position: absolute;
+    width: 10vw;
+    font-size: 3.2vw;
+    color: #fff;
+    margin-left: -5vw;
+    margin-top: 1vw;
+    background-color: #808080;
+    padding: 0 2px;
+  }
+
+</style>
+</head>
+<body>
+	<div id="wrap">
+
+		<h1 style="text-align: center">报表各项数据</h1>
+
+		<div class="swiper_div">
+			<div class="content_div">
+				<div class="content_div_txt">折线</div>
+				<div class="content_div_antv" id="content_div_antv">
+					<canvas id="antv1"></canvas>
+				</div>
+			</div>
+
+			<div class="content_div">
+				<div class="content_div_txt">带点折线</div>
+				<div class="content_div_antv" id="content_div_antv">
+					<canvas id="antv2"></canvas>
+				</div>
+			</div>
+
+			<div class="content_div">
+				<div class="content_div_txt">基础面积</div>
+				<div class="content_div_antv" id="content_div_antv">
+					<canvas id="antv3"></canvas>
+				</div>
+			</div>
+
+			<div class="content_div">
+				<div class="content_div_txt">你好</div>
+				<div class="content_div_antv" id="content_div_antv">
+					<canvas id="antv4"></canvas>
+				</div>
+			</div>
+
+			<div class="content_div">
+				<div class="content_div_txt">你好</div>
+				<div class="content_div_antv" id="content_div_antv">
+					<canvas id="antv5"></canvas>
+					<div id="date"></div>
+				</div>
+			</div>
+
+			<div class="content_div">
+				<div class="content_div_txt">你好</div>
+				<div class="content_div_antv" id="content_div_antv">
+					<canvas id="antv6"></canvas>
+				</div>
+			</div>
+
+			<div class="content_div">
+				<div class="content_div_txt">你好</div>
+				<div class="content_div_antv" id="content_div_antv">
+					<canvas id="antv7"></canvas>
+				</div>
+			</div>
+
+			<div class="content_div">
+				<div class="content_div_txt">你好</div>
+				<div class="content_div_antv" id="content_div_antv">
+					<canvas id="antv8"></canvas>
+				</div>
+			</div>
+
+			<div class="content_div">
+				<div class="content_div_txt">你好</div>
+				<div class="content_div_antv" id="content_div_antv">
+					<canvas id="antv9"></canvas>
+				</div>
+			</div>
+
+			<div class="content_div">
+				<div class="content_div_txt">你好</div>
+				<div class="content_div_antv" id="content_div_antv">
+					<canvas id="antv10"></canvas>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+<script>
+	
+var urls = "http://uy8xhr.natappfree.cc";
+
+// 折线
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+		var data = data.contentdata;
+		var chart = new F2.Chart({
+		  id: 'antv1',
+		  pixelRatio: window.devicePixelRatio
+		});
+
+		chart.source(data, 
+		{
+		  value: 
+		  {
+		    tickCount: 5,
+		    min: 0
+		  },
+		  datex: 
+		  {
+		    type: 'timeCat',
+		    range: [0, 1],
+		    tickCount: 3
+		  }
+		});
+
+		chart.tooltip({
+		  custom: true,
+		  showXTip: true,
+		  showYTip: true,
+		  snap: true,
+		  crosshairsType: 'xy',
+		  crosshairsStyle: {lineDash: [2]}
+		});
+		chart.axis('datex', 
+		{
+		  label: function label(text, index, total) 
+		  {
+		    var textCfg = {};
+		    if (index === 0) 
+		    {
+		      textCfg.textAlign = 'left';
+		    } 
+		    else if (index === total - 1) 
+		    {
+		      textCfg.textAlign = 'right';
+		    }
+		    return textCfg;
+		  }
+		});
+		chart.line().position('datex*value');
+		chart.render();
+	}
+});
+
+
+
+
+// 带点折线
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+		var data = data.contentdata;
+		var chart = new F2.Chart({
+		  	id: 'antv2',
+		  	pixelRatio: window.devicePixelRatio
+		});
+
+		chart.source(data, 
+		{
+		  value: {tickCount: 5,min: 0},
+		  datax: {range: [0, 1]}
+		});
+
+		chart.tooltip({
+		  showCrosshairs: true,
+		  showItemMarker: false,
+		  onShow: function onShow(ev) 
+		  {
+		    var items = ev.items;
+		    items[0].name = null;
+		    items[0].value = '$ ' + items[0].value;
+		  }
+		});
+
+		chart.axis('datax', 
+		{
+		  label: function label(text, index, total) 
+		  {
+		    var textCfg = {};
+		    if (index === 0) 
+		    {
+		      textCfg.textAlign = 'left';
+		    } 
+		    else if (index === total - 1) 
+		    {
+		      textCfg.textAlign = 'right';
+		    }
+		    return textCfg;
+		  }
+		});
+
+		chart.line().position('datax*value');
+		chart.point().position('datax*value').style({stroke: '#fff',lineWidth: 1});
+		chart.render();
+	}
+});
+
+
+
+
+
+// 基础面积
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+		var data = data.contentdata;
+		var chart = new F2.Chart({id: 'antv3',pixelRatio: window.devicePixelRatio});
+		chart.source(data);
+		chart.tooltip({showCrosshairs: true});
+		chart.scale({
+		  datax: {range: [0, 1]},
+		  value: {tickCount: 5,min: 0}
+		});
+		chart.axis('datax', 
+		{
+		  label: function label(text, index, total) 
+		  {
+		    var textCfg = {};
+		    if (index === 0) 
+		    {
+		      textCfg.textAlign = 'left';
+		    } 
+		    else if (index === total - 1) 
+		    {
+		      textCfg.textAlign = 'right';
+		    }
+		    return textCfg;
+		  }
+		});
+		chart.area().position('datax*value');
+		chart.line().position('datax*value');
+		chart.render();
+	}
+});
+
+
+
+
+
+//曲线折线图(带点)
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+		var data = data.contentdata;
+		var chart = new F2.Chart({
+		  id: 'antv4',
+		  pixelRatio: window.devicePixelRatio
+		});
+
+		var defs = {
+		  datax: {
+		    type: 'timeCat',
+		    mask: 'MM/DD',
+		    tickCount: 3,
+		    range: [0, 1]
+		  },
+		  value: {
+		    tickCount: 5,
+		    min: 0,
+		    alias: '日均温度'
+		  }
+		};
+		chart.source(data, defs);
+		chart.axis('datax', {
+		  label: function label(text, index, total) {
+		    var textCfg = {};
+		    if (index === 0) {
+		      textCfg.textAlign = 'left';
+		    } else if (index === total - 1) {
+		      textCfg.textAlign = 'right';
+		    }
+		    return textCfg;
+		  }
+		});
+		chart.tooltip({
+		  showCrosshairs: true
+		});
+		chart.line().position('datax*value').shape('smooth');
+		chart.point().position('datax*value').shape('smooth').style({
+		  stroke: '#fff',
+		  lineWidth: 1
+		});
+		chart.render();
+	}
+});
+
+
+
+
+
+
+// 层叠面积图
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"three"},
+	dataType:'json',
+	success:function(data)
+	{
+		var data = data.contentdata;
+		var chart = new F2.Chart({
+		  id: 'antv5',
+		  pixelRatio: window.devicePixelRatio
+		});
+
+		chart.source(data, {
+		  amonthx: {
+		    range: [0, 1],
+		    type: 'timeCat',
+		    mask: 'MM-DD'
+		  },
+		  amonthy: {
+		    max: 300,
+		    tickCount: 4
+		  }
+		});
+		chart.tooltip({
+		  showCrosshairs: true,
+		  custom: true, // 自定义 tooltip 内容框
+		  onChange: function onChange(obj) {
+		    var legend = chart.get('legendController').legends.top[0];
+		    var tooltipItems = obj.items;
+		    var legendItems = legend.items;
+		    var map = {};
+		    legendItems.map(function(item) {
+		      map[item.name] = _.clone(item);
+		    });
+		    tooltipItems.map(function(item) {
+		      var name = item.name;
+		      var amonthy = item.amonthy;
+		      if (map[name]) {
+		        map[name].amonthy = amonthy;
+		      }
+		    });
+		    legend.setItems(_.values(map));
+		    var coord = chart.get('coord');
+		    var title = tooltipItems[0].title;
+		    $('#date').text(title);
+		    $('#date').css({
+		      visibility: 'visible',
+		      left: obj.x,
+		      top: coord.start.y
+		    });
+		  },
+		  onHide: function onHide() {
+		    var legend = chart.get('legendController').legends.top[0];
+		    legend.setItems(chart.getLegendItems().country);
+		    $('#date').css({
+		      visibility: 'hidden'
+		    });
+		  }
+		});
+		chart.axis('amonthx', {
+		  label: function label(text, index, total) {
+		    var textCfg = {};
+		    if (index === 0) {
+		      textCfg.textAlign = 'left';
+		    } else if (index === total - 1) {
+		      textCfg.textAlign = 'right';
+		    }
+		    return textCfg;
+		  }
+		});
+		chart.area().position('amonthx*amonthy').color('dataname').adjust('stack');
+		chart.line().position('amonthx*amonthy').color('dataname').adjust('stack');
+		chart.render();
+	}
+});
+
+
+
+
+
+
+// 渐变填充面积图
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+		var data = data.contentdata;
+		var chart = new F2.Chart({
+		  id: 'antv6',
+		  pixelRatio: window.devicePixelRatio
+		});
+		chart.source(data, {
+		  datax: {
+		    type: 'timeCat',
+		    tickCount: 3,
+		    range: [0, 1]
+		  },
+		  value: {
+		    tickCount: 5,
+		    min: 0
+		  }
+		});
+
+		chart.axis('datax', {
+		  label: function label(text, index, total) {
+		    var textCfg = {};
+		    if (index === 0) {
+		      textCfg.textAlign = 'left';
+		    } else if (index === total - 1) {
+		      textCfg.textAlign = 'right';
+		    }
+		    return textCfg;
+		  }
+		});
+		chart.tooltip({
+		  showCrosshairs: true
+		});
+
+		chart.area().position('datax*value').color('l(90) 0:#1890FF 1:#f7f7f7').shape('smooth');
+		chart.line().position('datax*value').color('l(90) 0:#1890FF 1:#f7f7f7').shape('smooth');
+		chart.render();
+	}
+});
+
+
+
+// 基础柱状图
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+		var data = data.contentdata;
+		var chart = new F2.Chart({
+		  id: 'antv7',
+		  pixelRatio: window.devicePixelRatio
+		});
+
+		chart.source(data, {
+		  value: {
+		    tickCount: 5
+		  }
+		});
+		chart.tooltip({
+		  showItemMarker: false,
+		  onShow: function onShow(ev) {
+		    var items = ev.items;
+		    items[0].name = null;
+		    items[0].name = items[0].title;
+		    items[0].value = '¥ ' + items[0].value;
+		  }
+		});
+		chart.interval().position('datax*value');
+		chart.render();
+	}
+})
+
+
+
+
+
+// 基础条形图
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+		var Global = F2.Global;
+		var data = data.contentdata;
+		var chart = new F2.Chart({
+		  id: 'antv8',
+		  pixelRatio: window.devicePixelRatio
+		});
+
+		chart.source(data, {
+		  value: {
+		    tickCount: 5
+		  }
+		});
+		chart.coord({
+		  transposed: true
+		});
+		chart.axis('datax', {
+		  line: Global._defaultAxis.line,
+		  grid: null
+		});
+		chart.axis('value', {
+		  line: null,
+		  grid: Global._defaultAxis.grid,
+		  label: function label(text, index, total) {
+		    var textCfg = {};
+		    if (index === 0) {
+		      textCfg.textAlign = 'left';
+		    } else if (index === total - 1) {
+		      textCfg.textAlign = 'right';
+		    }
+		    return textCfg;
+		  }
+		});
+		chart.interval().position('datax*value');
+		chart.render();
+	}
+})
+
+
+
+
+// 饼图
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+		var map = {
+		  '芳华': '40%',
+		  '妖猫传': '20%',
+		  '机器之血': '18%',
+		  '心理罪': '15%',
+		  '寻梦环游记': '5%',
+		  '其他': '2%'
+		};
+		var data = [{
+		  name: '芳华',
+		  percent: 0.4,
+		  a: '1'
+		}, {
+		  name: '妖猫传',
+		  percent: 0.2,
+		  a: '1'
+		}, {
+		  name: '机器之血',
+		  percent: 0.18,
+		  a: '1'
+		}, {
+		  name: '心理罪',
+		  percent: 0.15,
+		  a: '1'
+		}, {
+		  name: '寻梦环游记',
+		  percent: 0.05,
+		  a: '1'
+		}, {
+		  name: '其他',
+		  percent: 0.02,
+		  a: '1'
+		}];
+		var chart = new F2.Chart({
+		  id: 'antv9',
+		  pixelRatio: window.devicePixelRatio
+		});
+		chart.source(data, {
+		  percent: {
+		    formatter: function formatter(val) {
+		      return val * 100 + '%';
+		    }
+		  }
+		});
+		chart.legend({
+		  position: 'right',
+		  itemFormatter: function itemFormatter(val) {
+		    return val + '  ' + map[val];
+		  }
+		});
+		chart.tooltip(false);
+		chart.coord('polar', {
+		  transposed: true,
+		  radius: 0.85
+		});
+		chart.axis(false);
+		chart.interval().position('a*percent').color('name', ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0']).adjust('stack').style({
+		  lineWidth: 1,
+		  stroke: '#fff',
+		  lineJoin: 'round',
+		  lineCap: 'round'
+		}).animate({
+		  appear: {
+		    duration: 1200,
+		    easing: 'bounceOut'
+		  }
+		});
+
+		chart.render();
+	}
+})
+
+
+
+// 层叠面积图
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+		var data = [{
+		  year: '2001',
+		  population: 41.8
+		}, {
+		  year: '2002',
+		  population: 25.8
+		}, {
+		  year: '2003',
+		  population: 31.7
+		}, {
+		  year: '2004',
+		  population: 46
+		}, {
+		  year: '2005',
+		  population: 28
+		}];
+
+		var chart = new F2.Chart({
+		  id: 'antv10',
+		  pixelRatio: window.devicePixelRatio
+		});
+		chart.source(data);
+		chart.coord('polar');
+		chart.legend({
+		  position: 'right'
+		});
+		chart.axis(false);
+		chart.interval().position('year*population').color('year').style({
+		  lineWidth: 1,
+		  stroke: '#fff'
+		});
+		chart.render();
+	}
+})
+
+
+// 层叠面积图
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+
+	}
+})
+
+
+// 层叠面积图
+$.ajax({
+	type:'post',
+	url:urls + '/antvdata',
+	data:{"action":"two"},
+	dataType:'json',
+	success:function(data)
+	{
+
+	}
+})
+
+</script>
+</html>

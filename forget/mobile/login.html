@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+<style>
+body,html{margin: 0;}
+	#form_div{width: 100%;height:100vh;}
+	.top_div,.bottom_div
+	{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #fff;
+		width: 100%;height: 20%;background-color: #87ceeb}
+	.middle_div
+	{
+		display:flex;
+		flex-direction:column;
+		justify-content: center;
+		align-items: center;
+		width: 100%;height: 60%;background-color: #b0e0e6;}
+	.middle_div input{margin: 10px 0;}
+</style>
+
+</head>
+<body>
+<div id="form_div">
+	<div class="top_div"><h1>Android</h1></div>
+	<div class="middle_div">
+		<input type="text" placeholder="username" id="username">
+		<input type="text" placeholder="password" id="password">
+		<input type="button" value="提交" id="btn">
+	</div>
+	<div class="bottom_div"><h6>版权归宝磊所有</h6></div>
+</div>
+</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+	var btn = document.querySelector('#btn');
+
+	var urlchuan = "http://7gfvuf.natappfree.cc";
+
+	btn.onclick = function()
+	{
+		var username = document.querySelector('#username').value;
+		var password = document.querySelector('#password').value;
+
+		// console.log(username + "," + password)
+		
+		// 将form表单元素的name与value进行组合,实现表单数据的序列化,从而减少表单元素的拼接,提高工作效率
+		// var formdata = new FormData();
+		// formdata.append("action","login");
+		// formdata.append("username",username);
+		// formdata.append("password",password);
+		
+		// var options = {method:"post",body:formdata};
+
+		alert(username);
+
+		$.ajax({
+			type: 'post',
+			url: urlchuan + '/user',
+			data:{"action":"login","username":username,"password":password},
+			dataType:'json',
+			success:function(data)
+			{
+				//alert(data.contentdata);
+				var jsondata = data.contentdata;
+
+				alert(data.msg);
+
+				if(data.msg == "success")
+				{
+					window.location.href = "./index.html?datas=" + encodeURI(JSON.stringify(jsondata));
+				}
+				
+			},
+			fail:function(error)
+			{
+				alert("失败");
+			}
+		})
+	}
+</script>
+</html>
